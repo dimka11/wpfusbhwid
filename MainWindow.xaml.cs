@@ -5,6 +5,7 @@ using System.Management;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Usb.Events;
 
 namespace UsbHwID
 {
@@ -16,6 +17,7 @@ namespace UsbHwID
         static List<string> _drives = new List<string>();
         private CancellationTokenSource cancelTokenSource;
         private CancellationToken token;
+        static readonly IUsbEventWatcher usbEventWatcher = new UsbEventWatcher();
 
         public MainWindow()
         {
@@ -33,6 +35,8 @@ namespace UsbHwID
                 CreateCancelToken();
                 _ = CompareSavedDeviceHwID(hwid);
                 var pt = PeriodicTask.Run(CompareSavedDeviceHwID_, new TimeSpan(0, 0, 5), token, hwid);
+                usbEventWatcher.UsbDriveEjected += (_, path) => MessageBox.Show($"usb device was ejected {path}");
+                //todo https://github.com/Jinjinov/Usb.Events
             }
         }
 
