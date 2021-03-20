@@ -37,6 +37,7 @@ namespace UsbHwID
                 var pt = PeriodicTask.Run(CompareSavedDeviceHwID_, new TimeSpan(0, 0, 5), token, hwid);
                 usbEventWatcher.UsbDriveEjected += (_, path) => MessageBox.Show($"usb device was ejected {path}");
                 //todo https://github.com/Jinjinov/Usb.Events
+                //todo ohttps://www.codeproject.com/articles/13530/eject-usb-disks-using-c?fid=283023&df=90&mpp=10&prof=True&sort=Position&view=Expanded&spc=Relaxed&fr=101
             }
         }
 
