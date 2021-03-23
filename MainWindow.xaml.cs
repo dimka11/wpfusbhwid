@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Management;
 using System.Threading;
@@ -76,12 +77,27 @@ namespace UsbHwID
         {
             var usbDevices = GetUSBDevices();
             ListBox.Items.Clear();
+
+            CultureInfo ci = CultureInfo.InstalledUICulture;
+            var lang = ci.TwoLetterISOLanguageName;
+
             foreach (var usbDevice in usbDevices)
             {
-                if (usbDevice.Description.Equals("USB Mass Storage Device"))
+                if (lang == "en")
                 {
-                    Console.WriteLine(usbDevice.PnpDeviceID);
-                    ListBox.Items.Add(usbDevice.PnpDeviceID);
+                    if (usbDevice.Description.Equals("USB Mass Storage Device"))
+                    {
+                        Console.WriteLine(usbDevice.PnpDeviceID);
+                        ListBox.Items.Add(usbDevice.PnpDeviceID);
+                    }
+                }
+                else
+                {
+                    if (usbDevice.Description.Equals("Запоминающее устройство для USB"))
+                    {
+                        Console.WriteLine(usbDevice.PnpDeviceID);
+                        ListBox.Items.Add(usbDevice.PnpDeviceID);
+                    }
                 }
             }
         }
